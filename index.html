@@ -1,5 +1,5 @@
 
-      <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -8,16 +8,17 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
       padding: 20px;
-      background-color: #f5f5f5;
     }
-    #entrada-nome, #rotina {
-      max-width: 700px;
-      margin: 0 auto;
+    #tela-inicial, #tela-principal {
+      max-width: 750px;
+      margin: auto;
       background: white;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     h1, h2 {
       text-align: center;
@@ -25,35 +26,38 @@
     }
     label {
       font-weight: bold;
+      display: block;
+      margin-top: 10px;
     }
     input[type="text"], input[type="time"], input[type="tel"] {
-      padding: 6px;
       width: 100%;
-      margin-top: 4px;
-      margin-bottom: 10px;
+      padding: 8px;
+      margin: 5px 0 15px;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 5px;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 15px;
+      margin-bottom: 15px;
     }
     th, td {
-      padding: 8px;
       border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
     }
     th {
       background-color: #003366;
       color: white;
     }
     tr:nth-child(even) {
-      background-color: #eef;
+      background-color: #eaf3ff;
     }
-    .finalizar-btn {
-      margin-top: 20px;
-      padding: 12px;
+    .botao {
+      display: block;
       width: 100%;
+      padding: 12px;
+      margin-top: 15px;
       background-color: #28a745;
       color: white;
       font-size: 16px;
@@ -61,9 +65,94 @@
       border-radius: 8px;
       cursor: pointer;
     }
-    .finalizar-btn:hover {
+    .botao:hover {
       background-color: #218838;
     }
     #form-finalizar {
       display: none;
-      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="tela-inicial">
+  <h1>Missão do Dia</h1>
+  <label for="nome">Digite seu nome para começar:</label>
+  <input type="text" id="nome" placeholder="Ex: Davi" required />
+  <button class="botao" onclick="iniciarRotina()">Começar</button>
+</div>
+
+<div id="tela-principal" style="display:none;">
+  <h2>Olá, <span id="nomeExibido"></span>!</h2>
+
+  <table>
+    <tr>
+      <th>Tarefa</th>
+      <th>Início</th>
+      <th>Fim</th>
+      <th>Feita?</th>
+    </tr>
+    <tr>
+      <td>Acordar cedo</td>
+      <td><input type="time" /></td>
+      <td><input type="time" /></td>
+      <td><input type="checkbox" /></td>
+    </tr>
+    <tr>
+      <td>Escovar os dentes</td>
+      <td><input type="time" /></td>
+      <td><input type="time" /></td>
+      <td><input type="checkbox" /></td>
+    </tr>
+    <tr>
+      <td>Estudar programação</td>
+      <td><input type="time" /></td>
+      <td><input type="time" /></td>
+      <td><input type="checkbox" /></td>
+    </tr>
+    <tr>
+      <td>Praticar instrumento</td>
+      <td><input type="time" /></td>
+      <td><input type="time" /></td>
+      <td><input type="checkbox" /></td>
+    </tr>
+    <tr>
+      <td>Ajudar em casa</td>
+      <td><input type="time" /></td>
+      <td><input type="time" /></td>
+      <td><input type="checkbox" /></td>
+    </tr>
+  </table>
+
+  <button class="botao" onclick="mostrarFinalizar()">Finalizar</button>
+
+  <div id="form-finalizar">
+    <label for="numero1">Número da pessoa 1 (WhatsApp):</label>
+    <input type="tel" id="numero1" placeholder="(xx) xxxxx-xxxx" />
+
+    <label for="numero2">Número da pessoa 2 (WhatsApp):</label>
+    <input type="tel" id="numero2" placeholder="(xx) xxxxx-xxxx" />
+
+    <p><em>Esses números serão usados para avisar sobre a rotina do dia.</em></p>
+  </div>
+</div>
+
+<script>
+  function iniciarRotina() {
+    const nome = document.getElementById("nome").value.trim();
+    if (nome === "") {
+      alert("Por favor, digite seu nome!");
+      return;
+    }
+    document.getElementById("nomeExibido").innerText = nome;
+    document.getElementById("tela-inicial").style.display = "none";
+    document.getElementById("tela-principal").style.display = "block";
+  }
+
+  function mostrarFinalizar() {
+    document.getElementById("form-finalizar").style.display = "block";
+  }
+</script>
+
+</body>
+</html>
