@@ -1,0 +1,96 @@
+index.html<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A Rotina de Davi CCB</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    header h1 {
+      color: #003366;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #003366;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #eef;
+    }
+    button {
+      display: block;
+      margin: 0 auto;
+      padding: 10px 20px;
+      background-color: #006633;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #004d26;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>A Rotina de Davi CCB</h1>
+  </header>
+  <table>
+    <thead>
+      <tr>
+        <th>Tarefa</th>
+        <th>Status</th>
+        <th>Observações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Acordar cedo</td>
+        <td><input type="checkbox" /></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Escovar os dentes</td>
+        <td><input type="checkbox" /></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Estudar programação</td>
+        <td><input type="checkbox" /></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Praticar instrumento</td>
+        <td><input type="checkbox" /></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Ajudar em casa</td>
+        <td><input type="checkbox" /></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <button onclick="window.print()">Imprimir Rotina</button>
+</body>
+</html>
