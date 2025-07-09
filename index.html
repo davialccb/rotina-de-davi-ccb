@@ -1,4 +1,4 @@
-<!-- código HTML atualizado com nome "Alice Vansans Borges" --><!DOCTYPE html><html lang="pt-BR">
+<!-- código HTML atualizado com verificação mais flexível para nome feminino --><!DOCTYPE html><html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -80,6 +80,9 @@
       color: deeppink;
       font-weight: bold;
       margin-top: 10px;
+    }
+    .ceu-rosa {
+      background: linear-gradient(to top, #ffe6f2, #ffffff);
     }
   </style>
 </head>
@@ -166,9 +169,9 @@ function iniciarRotina() {
     });
   }
 
-  if (nome.toLowerCase() === "alice vansans borges") {
-    document.body.style.backgroundColor = "#ffe6f2";
-    document.getElementById("decoracao").innerHTML = `<div class='florzinhas'>🌸🌷💖🌺🌼🌸🌷💖🌺🌼</div><p class='mensagem-alice'>Para minha namorada mais bonita do mundo, te amo até a eternidade!</p>`;
+  if (nome.toLowerCase().includes("alice") && nome.toLowerCase().includes("borges")) {
+    document.body.classList.add("ceu-rosa");
+    document.getElementById("decoracao").innerHTML = `<div class='florzinhas'>🌸🌷💖🌺☁️🌸🌷💖🌺☁️</div><p class='mensagem-alice'>Para minha namorada mais bonita do mundo, te amo até a eternidade!</p>`;
   }
 }
 
@@ -212,3 +215,4 @@ function enviarWhatsApp() {
 }
 </script></body>
 </html>
+  
