@@ -1,175 +1,63 @@
-<!-- MISSÃO DO DIA - VERSÃO COMPLETA COM CRIADOR --><!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Missão do Dia</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Missão do Dia - Organize sua rotina com tarefas diárias, pontos e envio para WhatsApp." />
+  <meta name="keywords" content="missão do dia, rotina, tarefas, CCB, site do Davi" />
+  <meta name="author" content="Davi Alexandre Monteiro Batista" />
+  <title>Missão do Dia - Entrada</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
       margin: 0;
-      padding: 20px;
+      padding: 1rem;
     }
-    #container {
-      max-width: 750px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1, h2, h3 {
+    h1 {
       text-align: center;
+      color: #007acc;
     }
-    label {
+    .dados input {
       display: block;
-      margin-top: 10px;
-      font-weight: bold;
+      margin: 0.4rem auto;
+      padding: 0.5rem;
+      width: 90%;
     }
-    input[type="text"], input[type="tel"] {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .botao {
+    button {
       display: block;
-      width: 100%;
-      padding: 12px;
-      margin-top: 15px;
-      background-color: #4CAF50;
+      margin: 1rem auto;
+      background-color: #007acc;
       color: white;
-      font-size: 16px;
       border: none;
-      border-radius: 8px;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
       cursor: pointer;
     }
-    table {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
-    }
-    .oculto { display: none; }
   </style>
 </head>
 <body>
-<div id="container">
   <h1>Missão do Dia</h1>
-  <div id="inicio">
-    <label>Nome completo:</label>
-    <input type="text" id="nome" required>
-    <label>País:</label>
-    <input type="text" id="pais">
-    <label>Estado:</label>
-    <input type="text" id="estado">
-    <label>Cidade:</label>
-    <input type="text" id="cidade">
-    <button class="botao" onclick="iniciarRotina()">Começar</button>
-  </div>  <div id="rotina" class="oculto">
-    <h2>Minha Rotina</h2>
-    <table id="tabela">
-      <thead>
-        <tr>
-          <th>Tarefa</th>
-          <th>✔️</th>
-          <th>❌</th>
-        </tr>
-      </thead>
-      <tbody id="lista-tarefas"></tbody>
-    </table>
-    <button class="botao" onclick="adicionarTarefa()">Adicionar tarefa</button>
-    <button class="botao" onclick="adicionarFoto()">Adicionar foto</button>
-    <button class="botao" onclick="finalizarRotina()">Finalizar</button>
-    <button class="botao" onclick="imprimirModelo()">Imprimir modelo</button>
-  </div>  <div id="criador" class="oculto">
-    <h3>Painel do Criador</h3>
-    <p><strong>Meninos:</strong> <span id="contMenino">0</span></p>
-    <p><strong>Meninas:</strong> <span id="contMenina">0</span></p>
-    <ul id="listaUsuarios"></ul>
+  <div class="dados">
+    <input id="nome" placeholder="Seu nome completo" />
+    <input id="pais" placeholder="País" />
+    <input id="estado" placeholder="Estado" />
+    <input id="cidade" placeholder="Cidade" />
+    <button onclick="entrarNoSite()">Ir para o site</button>
   </div>
-</div><script>
-let tarefas = [];
-let meninas = 0;
-let meninos = 0;
-let usuarios = [];
+  <script>
+    function entrarNoSite() {
+      const nome = document.getElementById('nome').value.trim().toLowerCase();
+      const pais = document.getElementById('pais').value;
+      const estado = document.getElementById('estado').value;
+      const cidade = document.getElementById('cidade').value;localStorage.setItem('nome', nome);
+  localStorage.setItem('pais', pais);
+  localStorage.setItem('estado', estado);
+  localStorage.setItem('cidade', cidade);
 
-function iniciarRotina() {
-  const nome = document.getElementById("nome").value.trim();
-  const pais = document.getElementById("pais").value;
-  const estado = document.getElementById("estado").value;
-  const cidade = document.getElementById("cidade").value;
-
-  const genero = nome.slice(-1).toLowerCase() === 'a' ? 'menina' : 'menino';
-  if (genero === 'menina') meninas++;
-  else meninos++;
-
-  usuarios.push(`${nome} - ${cidade}, ${estado}, ${pais}`);
-
-  if (nome.toLowerCase() === "davi alexandre monteiro batista") {
-    document.getElementById("criador").classList.remove("oculto");
-    document.getElementById("contMenino").innerText = meninos;
-    document.getElementById("contMenina").innerText = meninas;
-    const ul = document.getElementById("listaUsuarios");
-    ul.innerHTML = "";
-    usuarios.forEach(u => {
-      const li = document.createElement("li");
-      li.textContent = u;
-      ul.appendChild(li);
-    });
-  }
-
-  document.getElementById("inicio").classList.add("oculto");
-  document.getElementById("rotina").classList.remove("oculto");
-  atualizarTabela();
+  window.location.href = "rotina.html";
 }
 
-function adicionarTarefa() {
-  tarefas.push({ texto: "", feito: false });
-  atualizarTabela();
-}
-
-function removerTarefa(index) {
-  tarefas.splice(index, 1);
-  atualizarTabela();
-}
-
-function atualizarTabela() {
-  const tbody = document.getElementById("lista-tarefas");
-  tbody.innerHTML = "";
-  tarefas.forEach((tarefa, index) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td><input type="text" value="${tarefa.texto}" onchange="editarTarefa(${index}, this.value)"></td>
-      <td><input type="checkbox" ${tarefa.feito ? "checked" : ""} onchange="marcarFeito(${index}, this.checked)"></td>
-      <td><button onclick="removerTarefa(${index})">❌</button></td>
-    `;
-    tbody.appendChild(row);
-  });
-}
-
-function editarTarefa(index, texto) {
-  tarefas[index].texto = texto;
-}
-
-function marcarFeito(index, feito) {
-  tarefas[index].feito = feito;
-}
-
-function adicionarFoto() {
-  alert("Você pode tirar ou adicionar uma foto da tarefa agora.");
-}
-
-function finalizarRotina() {
-  alert("Rotina finalizada. Parabéns por hoje!");
-}
-
-function imprimirModelo() {
-  window.open("modelo-rotina.pdf", "_blank");
-}
-</script></body>
+  </script>
+</body>
 </html>
