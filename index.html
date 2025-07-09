@@ -1,18 +1,16 @@
-
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Missão do Dia</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
+      background-color: #f0f8ff;
       margin: 0;
       padding: 20px;
     }
-    #tela-inicial, #tela-principal {
+    #tela-inicial, #tela-principal, #criador {
       max-width: 750px;
       margin: auto;
       background: white;
@@ -50,9 +48,6 @@
       background-color: #003366;
       color: white;
     }
-    tr:nth-child(even) {
-      background-color: #eaf3ff;
-    }
     .botao {
       display: block;
       width: 100%;
@@ -68,91 +63,95 @@
     .botao:hover {
       background-color: #218838;
     }
-    #form-finalizar {
+    #form-finalizar, #foto, #impressao, #criador {
       display: none;
     }
   </style>
 </head>
 <body>
-
 <div id="tela-inicial">
   <h1>Missão do Dia</h1>
   <label for="nome">Digite seu nome para começar:</label>
   <input type="text" id="nome" placeholder="Ex: Davi" required />
   <button class="botao" onclick="iniciarRotina()">Começar</button>
-</div>
-
-<div id="tela-principal" style="display:none;">
-  <h2>Olá, <span id="nomeExibido"></span>!</h2>
-
-  <table>
+</div><div id="tela-principal" style="display:none;">
+  <h2>Olá, <span id="nomeExibido"></span>!</h2>  <table id="tabelaTarefas">
     <tr>
       <th>Tarefa</th>
       <th>Início</th>
       <th>Fim</th>
       <th>Feita?</th>
     </tr>
-    <tr>
-      <td>Acordar cedo</td>
-      <td><input type="time" /></td>
-      <td><input type="time" /></td>
-      <td><input type="checkbox" /></td>
-    </tr>
-    <tr>
-      <td>Escovar os dentes</td>
-      <td><input type="time" /></td>
-      <td><input type="time" /></td>
-      <td><input type="checkbox" /></td>
-    </tr>
-    <tr>
-      <td>Estudar programação</td>
-      <td><input type="time" /></td>
-      <td><input type="time" /></td>
-      <td><input type="checkbox" /></td>
-    </tr>
-    <tr>
-      <td>Praticar instrumento</td>
-      <td><input type="time" /></td>
-      <td><input type="time" /></td>
-      <td><input type="checkbox" /></td>
-    </tr>
-    <tr>
-      <td>Ajudar em casa</td>
-      <td><input type="time" /></td>
-      <td><input type="time" /></td>
-      <td><input type="checkbox" /></td>
-    </tr>
-  </table>
+    <tr><td>Acordar</td><td><input type="time" id="horaAcordou"/></td><td><input type="time"/></td><td><input type="checkbox"/></td></tr>
+    <tr><td>Escovar os dentes</td><td><input type="time"/></td><td><input type="time"/></td><td><input type="checkbox"/></td></tr>
+    <tr><td>Estudar</td><td><input type="time"/></td><td><input type="time"/></td><td><input type="checkbox"/></td></tr>
+    <tr><td>Praticar instrumento</td><td><input type="time"/></td><td><input type="time"/></td><td><input type="checkbox"/></td></tr>
+    <tr><td>Ajudar em casa</td><td><input type="time"/></td><td><input type="time"/></td><td><input type="checkbox"/></td></tr>
+  </table><button class="botao" onclick="mostrarFinalizar()">Finalizar</button> <button class="botao" onclick="document.getElementById('foto').click()">Adicionar foto da tarefa</button> <button class="botao" onclick="imprimirRotina()">Imprimir modelo da rotina</button>
 
-  <button class="botao" onclick="mostrarFinalizar()">Finalizar</button>
-
-  <div id="form-finalizar">
-    <label for="numero1">Número da pessoa 1 (WhatsApp):</label>
+  <input type="file" id="foto" accept="image/*" onchange="fotoEnviada = true"/>  <div id="form-finalizar">
+    <label for="numero1">Seu número (WhatsApp):</label>
     <input type="tel" id="numero1" placeholder="(xx) xxxxx-xxxx" />
-
     <label for="numero2">Número da pessoa 2 (WhatsApp):</label>
     <input type="tel" id="numero2" placeholder="(xx) xxxxx-xxxx" />
-
-    <p><em>Esses números serão usados para avisar sobre a rotina do dia.</em></p>
+    <label for="numero3">Número da pessoa 3 (WhatsApp):</label>
+    <input type="tel" id="numero3" placeholder="(xx) xxxxx-xxxx" />
+    <button class="botao" onclick="enviarWhatsApp()">Enviar WhatsApp</button>
   </div>
-</div>
+</div><div id="criador">
+  <h2>Área do Criador</h2>
+  <p>Total de acessos: <span id="contadorAcessos">0</span></p>
+</div><script>
+let fotoEnviada = false;
+let contador = localStorage.getItem("acessos") || 0;
+contador++;
+localStorage.setItem("acessos", contador);
 
-<script>
-  function iniciarRotina() {
-    const nome = document.getElementById("nome").value.trim();
-    if (nome === "") {
-      alert("Por favor, digite seu nome!");
-      return;
+function iniciarRotina() {
+  const nome = document.getElementById("nome").value.trim();
+  if (nome === "") {
+    alert("Digite seu nome para continuar.");
+    return;
+  }
+  document.getElementById("nomeExibido").innerText = nome;
+  document.getElementById("tela-inicial").style.display = "none";
+  document.getElementById("tela-principal").style.display = "block";
+
+  if (nome.toLowerCase() === "davi alexandre monteiro batista") {
+    document.getElementById("criador").style.display = "block";
+    document.getElementById("contadorAcessos").innerText = contador;
+  }
+}
+
+function mostrarFinalizar() {
+  document.getElementById("form-finalizar").style.display = "block";
+}
+
+function imprimirRotina() {
+  window.open("https://davialccb.github.io/rotina-de-davi-ccb/modelo-rotina.pdf", "_blank");
+}
+
+function enviarWhatsApp() {
+  const nome = document.getElementById("nome").value.trim();
+  const hora = document.getElementById("horaAcordou").value;
+  const checks = document.querySelectorAll("input[type='checkbox']");
+  let feitas = 0;
+  let total = 0;
+  checks.forEach(c => { total++; if (c.checked) feitas++; });
+  const pontos = (feitas * 0.5).toFixed(1);
+  const melhoras = feitas < total ? `Pode melhorar nas tarefas que não foram marcadas.` : `Parabéns, completou tudo!`;
+  const fotoTexto = fotoEnviada ? "A foto foi enviada." : "Nenhuma foto foi adicionada.";
+
+  const mensagem = `Missão do Dia - ${nome}%0A
+Tarefas feitas: ${feitas}/${total}%0APontos: ${pontos}%0A${melhoras}%0AHorário que acordou: ${hora || "não informado"}%0A${fotoTexto}`;
+
+  ["numero1", "numero2", "numero3"].forEach(id => {
+    const tel = document.getElementById(id).value.replace(/\D/g, "");
+    if (tel) {
+      const url = `https://wa.me/55${tel}?text=${mensagem}`;
+      window.open(url);
     }
-    document.getElementById("nomeExibido").innerText = nome;
-    document.getElementById("tela-inicial").style.display = "none";
-    document.getElementById("tela-principal").style.display = "block";
-  }
-
-  function mostrarFinalizar() {
-    document.getElementById("form-finalizar").style.display = "block";
-  }
-</script>
-
-</body>
+  });
+}
+</script></body>
 </html>
