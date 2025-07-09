@@ -1,4 +1,4 @@
-<!-- código HTML atualizado com verificação mais flexível para nome feminino --><!DOCTYPE html><html lang="pt-BR">
+<!-- CÓDIGO HTML FINAL ATUALIZADO --><!DOCTYPE html><html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -66,9 +66,6 @@
     #form-finalizar, #foto, #impressao, #criador, #editar-tarefas {
       display: none;
     }
-    ul {
-      padding-left: 20px;
-    }
     .florzinhas {
       text-align: center;
       font-size: 20px;
@@ -115,16 +112,24 @@
     <tr><td>Estudar</td><td><input type="time"/></td><td><input type="time"/></td><td><input type="checkbox"/></td></tr>
     <tr><td>Praticar instrumento</td><td><input type="time"/></td><td><input type="time"/></td><td><input type="checkbox"/></td></tr>
     <tr><td>Ajudar em casa</td><td><input type="time"/></td><td><input type="time"/></td><td><input type="checkbox"/></td></tr>
-  </table><button class="botao" onclick="mostrarFinalizar()">Finalizar</button> <button class="botao" onclick="document.getElementById('foto').click()">Adicionar foto da tarefa</button> <button class="botao" onclick="window.open('modelo-rotina.pdf', '_blank')">Imprimir modelo da rotina</button>
+  </table><button class="botao" onclick="mostrarFinalizar()">Finalizar</button> <button class="botao" onclick="document.getElementById('foto').click()">Adicionar foto da tarefa</button> <button class="botao" onclick="window.open('modelo-rotina.html', '_blank')">Imprimir modelo da rotina</button>
 
   <input type="file" id="foto" accept="image/*" onchange="fotoEnviada = true"/>  <div id="form-finalizar">
     <label for="numero1">Seu número (WhatsApp):</label>
     <input type="tel" id="numero1" placeholder="(xx) xxxxx-xxxx" />
-    <label for="numero2">Número da pessoa 2 (WhatsApp):</label>
-    <input type="tel" id="numero2" placeholder="(xx) xxxxx-xxxx" />
-    <label for="numero3">Número da pessoa 3 (WhatsApp):</label>
-    <input type="tel" id="numero3" placeholder="(xx) xxxxx-xxxx" />
-    <button class="botao" onclick="enviarWhatsApp()">Enviar WhatsApp</button>
+    <label for="nome1">Seu nome:</label>
+    <input type="text" id="nome1" placeholder="Ex: Davi" /><label for="numero2">Número da pessoa 2 (WhatsApp):</label>
+<input type="tel" id="numero2" placeholder="(xx) xxxxx-xxxx" />
+<label for="nome2">Nome da pessoa 2:</label>
+<input type="text" id="nome2" placeholder="Ex: Carlos" />
+
+<label for="numero3">Número da pessoa 3 (WhatsApp):</label>
+<input type="tel" id="numero3" placeholder="(xx) xxxxx-xxxx" />
+<label for="nome3">Nome da pessoa 3:</label>
+<input type="text" id="nome3" placeholder="Ex: Tia Rosa" />
+
+<button class="botao" onclick="enviarWhatsApp()">Enviar WhatsApp</button>
+
   </div>
 </div><div id="criador">
   <h2>Área do Criador</h2>
@@ -202,17 +207,20 @@ function enviarWhatsApp() {
   const melhoras = feitas < total ? `Pode melhorar nas tarefas que não foram marcadas.` : `Parabéns, completou tudo!`;
   const fotoTexto = fotoEnviada ? "A foto foi enviada." : "Nenhuma foto foi adicionada.";
 
-  const mensagem = `*Missão do Dia - ${nome}*%0ADe: ${cidade}, ${estado}, ${pais}%0ATarefas feitas: ${feitas}/${total}%0APontos: ${pontos}%0A${melhoras}%0AHorário que acordou: ${hora || "não informado"}%0A${fotoTexto}%0A_Enviado pelo celular do rotineiro (quem fez a rotina)._
-  `;
+  const n1 = document.getElementById("numero1").value.replace(/\D/g, '');
+  const n2 = document.getElementById("numero2").value.replace(/\D/g, '');
+  const n3 = document.getElementById("numero3").value.replace(/\D/g, '');
+  const nome1 = document.getElementById("nome1").value;
+  const nome2 = document.getElementById("nome2").value;
+  const nome3 = document.getElementById("nome3").value;
 
-  const numero1 = document.getElementById("numero1").value;
-  const numero2 = document.getElementById("numero2").value;
-  const numero3 = document.getElementById("numero3").value;
+  const msg1 = `*Missão do Dia*\nParabéns ${nome1 || nome}, você conseguiu!\nTarefas feitas: ${feitas}/${total}\nPontos: ${pontos}\n${melhoras}\nAcordou: ${hora || "não informado"}\n${fotoTexto}`;
+  const msg2 = `*Missão do Dia*\n${nome2}, ${nome} completou a missão do dia!\nTarefas: ${feitas}/${total}\nPontos: ${pontos}\n${melhoras}\nAcordou: ${hora || "não informado"}`;
+  const msg3 = `*Missão do Dia*\n${nome3}, ${nome} completou a missão do dia!\nTarefas: ${feitas}/${total}\nPontos: ${pontos}\n${melhoras}\nAcordou: ${hora || "não informado"}`;
 
-  if (numero1) window.open(`https://wa.me/55${numero1.replace(/\D/g, '')}?text=${mensagem}`);
-  if (numero2) window.open(`https://wa.me/55${numero2.replace(/\D/g, '')}?text=${mensagem}`);
-  if (numero3) window.open(`https://wa.me/55${numero3.replace(/\D/g, '')}?text=${mensagem}`);
+  if (n1) window.open(`https://wa.me/55${n1}?text=${encodeURIComponent(msg1)}`);
+  if (n2) window.open(`https://wa.me/55${n2}?text=${encodeURIComponent(msg2)}`);
+  if (n3) window.open(`https://wa.me/55${n3}?text=${encodeURIComponent(msg3)}`);
 }
 </script></body>
 </html>
-  
