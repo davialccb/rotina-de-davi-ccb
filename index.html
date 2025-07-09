@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!-- código HTML atualizado com nome "Alice Vansans Borges" --><!DOCTYPE html><html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -63,19 +63,44 @@
     .botao:hover {
       background-color: #218838;
     }
-    #form-finalizar, #foto, #impressao, #criador {
+    #form-finalizar, #foto, #impressao, #criador, #editar-tarefas {
       display: none;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    .florzinhas {
+      text-align: center;
+      font-size: 20px;
+      color: hotpink;
+    }
+    .mensagem-alice {
+      text-align: center;
+      font-size: 18px;
+      color: deeppink;
+      font-weight: bold;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 <div id="tela-inicial">
   <h1>Missão do Dia</h1>
-  <label for="nome">Digite seu nome para começar:</label>
+  <label for="nome">Nome completo:</label>
   <input type="text" id="nome" placeholder="Ex: Davi" required />
+  <label for="pais">País:</label>
+  <input type="text" id="pais" placeholder="Ex: Brasil" required />
+  <label for="estado">Estado:</label>
+  <input type="text" id="estado" placeholder="Ex: Paraná" required />
+  <label for="cidade">Cidade:</label>
+  <input type="text" id="cidade" placeholder="Ex: Curitiba" required />
   <button class="botao" onclick="iniciarRotina()">Começar</button>
 </div><div id="tela-principal" style="display:none;">
-  <h2>Olá, <span id="nomeExibido"></span>!</h2>  <table id="tabelaTarefas">
+  <h2>Olá, <span id="nomeExibido"></span>!</h2>  <div id="editar-tarefas">
+    <label for="novaTarefa">Adicionar nova tarefa:</label>
+    <input type="text" id="novaTarefa" placeholder="Nova tarefa...">
+    <button class="botao" onclick="adicionarTarefa()">Adicionar</button>
+  </div>  <table id="tabelaTarefas">
     <tr>
       <th>Tarefa</th>
       <th>Início</th>
@@ -87,7 +112,7 @@
     <tr><td>Estudar</td><td><input type="time"/></td><td><input type="time"/></td><td><input type="checkbox"/></td></tr>
     <tr><td>Praticar instrumento</td><td><input type="time"/></td><td><input type="time"/></td><td><input type="checkbox"/></td></tr>
     <tr><td>Ajudar em casa</td><td><input type="time"/></td><td><input type="time"/></td><td><input type="checkbox"/></td></tr>
-  </table><button class="botao" onclick="mostrarFinalizar()">Finalizar</button> <button class="botao" onclick="document.getElementById('foto').click()">Adicionar foto da tarefa</button> <button class="botao" onclick="imprimirRotina()">Imprimir modelo da rotina</button>
+  </table><button class="botao" onclick="mostrarFinalizar()">Finalizar</button> <button class="botao" onclick="document.getElementById('foto').click()">Adicionar foto da tarefa</button> <button class="botao" onclick="window.open('modelo-rotina.pdf', '_blank')">Imprimir modelo da rotina</button>
 
   <input type="file" id="foto" accept="image/*" onchange="fotoEnviada = true"/>  <div id="form-finalizar">
     <label for="numero1">Seu número (WhatsApp):</label>
@@ -101,25 +126,49 @@
 </div><div id="criador">
   <h2>Área do Criador</h2>
   <p>Total de acessos: <span id="contadorAcessos">0</span></p>
-</div><script>
+  <h3>Usuários que acessaram:</h3>
+  <ul id="listaUsuarios"></ul>
+</div><div id="decoracao"></div><script>
 let fotoEnviada = false;
 let contador = localStorage.getItem("acessos") || 0;
 contador++;
 localStorage.setItem("acessos", contador);
 
+let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
 function iniciarRotina() {
   const nome = document.getElementById("nome").value.trim();
-  if (nome === "") {
-    alert("Digite seu nome para continuar.");
+  const pais = document.getElementById("pais").value.trim();
+  const estado = document.getElementById("estado").value.trim();
+  const cidade = document.getElementById("cidade").value.trim();
+
+  if (!nome || !pais || !estado || !cidade) {
+    alert("Preencha todos os campos antes de continuar.");
     return;
   }
+
   document.getElementById("nomeExibido").innerText = nome;
   document.getElementById("tela-inicial").style.display = "none";
   document.getElementById("tela-principal").style.display = "block";
+  document.getElementById("editar-tarefas").style.display = "block";
 
   if (nome.toLowerCase() === "davi alexandre monteiro batista") {
     document.getElementById("criador").style.display = "block";
     document.getElementById("contadorAcessos").innerText = contador;
+    usuarios.push(`${nome} - ${cidade}, ${estado}, ${pais}`);
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    const lista = document.getElementById("listaUsuarios");
+    lista.innerHTML = "";
+    usuarios.forEach(user => {
+      const li = document.createElement("li");
+      li.textContent = user;
+      lista.appendChild(li);
+    });
+  }
+
+  if (nome.toLowerCase() === "alice vansans borges") {
+    document.body.style.backgroundColor = "#ffe6f2";
+    document.getElementById("decoracao").innerHTML = `<div class='florzinhas'>🌸🌷💖🌺🌼🌸🌷💖🌺🌼</div><p class='mensagem-alice'>Para minha namorada mais bonita do mundo, te amo até a eternidade!</p>`;
   }
 }
 
@@ -127,13 +176,21 @@ function mostrarFinalizar() {
   document.getElementById("form-finalizar").style.display = "block";
 }
 
-function imprimirRotina() {
-  window.open("https://davialccb.github.io/rotina-de-davi-ccb/modelo-rotina.pdf", "_blank");
+function adicionarTarefa() {
+  const nova = document.getElementById("novaTarefa").value.trim();
+  if (!nova) return;
+  const tabela = document.getElementById("tabelaTarefas");
+  const novaLinha = tabela.insertRow();
+  novaLinha.innerHTML = `<td>${nova}</td><td><input type='time'/></td><td><input type='time'/></td><td><input type='checkbox'/></td>`;
+  document.getElementById("novaTarefa").value = "";
 }
 
 function enviarWhatsApp() {
   const nome = document.getElementById("nome").value.trim();
   const hora = document.getElementById("horaAcordou").value;
+  const pais = document.getElementById("pais").value.trim();
+  const estado = document.getElementById("estado").value.trim();
+  const cidade = document.getElementById("cidade").value.trim();
   const checks = document.querySelectorAll("input[type='checkbox']");
   let feitas = 0;
   let total = 0;
@@ -142,16 +199,16 @@ function enviarWhatsApp() {
   const melhoras = feitas < total ? `Pode melhorar nas tarefas que não foram marcadas.` : `Parabéns, completou tudo!`;
   const fotoTexto = fotoEnviada ? "A foto foi enviada." : "Nenhuma foto foi adicionada.";
 
-  const mensagem = `Missão do Dia - ${nome}%0A
-Tarefas feitas: ${feitas}/${total}%0APontos: ${pontos}%0A${melhoras}%0AHorário que acordou: ${hora || "não informado"}%0A${fotoTexto}`;
+  const mensagem = `*Missão do Dia - ${nome}*%0ADe: ${cidade}, ${estado}, ${pais}%0ATarefas feitas: ${feitas}/${total}%0APontos: ${pontos}%0A${melhoras}%0AHorário que acordou: ${hora || "não informado"}%0A${fotoTexto}%0A_Enviado pelo celular do rotineiro (quem fez a rotina)._
+  `;
 
-  ["numero1", "numero2", "numero3"].forEach(id => {
-    const tel = document.getElementById(id).value.replace(/\D/g, "");
-    if (tel) {
-      const url = `https://wa.me/55${tel}?text=${mensagem}`;
-      window.open(url);
-    }
-  });
+  const numero1 = document.getElementById("numero1").value;
+  const numero2 = document.getElementById("numero2").value;
+  const numero3 = document.getElementById("numero3").value;
+
+  if (numero1) window.open(`https://wa.me/55${numero1.replace(/\D/g, '')}?text=${mensagem}`);
+  if (numero2) window.open(`https://wa.me/55${numero2.replace(/\D/g, '')}?text=${mensagem}`);
+  if (numero3) window.open(`https://wa.me/55${numero3.replace(/\D/g, '')}?text=${mensagem}`);
 }
 </script></body>
 </html>
