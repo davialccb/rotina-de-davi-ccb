@@ -1,63 +1,188 @@
-<!DOCTYPE html><html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Missão do Dia - Organize sua rotina com tarefas diárias, pontos e envio para WhatsApp." />
-  <meta name="keywords" content="missão do dia, rotina, tarefas, CCB, site do Davi" />
-  <meta name="author" content="Davi Alexandre Monteiro Batista" />
-  <title>Missão do Dia - Entrada</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Missão do Dia</title>
   <style>
     body {
-      font-family: sans-serif;
-      background-color: #f0f8ff;
-      color: #333;
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
       margin: 0;
-      padding: 1rem;
+      padding: 20px;
     }
+
     h1 {
       text-align: center;
-      color: #007acc;
+      color: #1e3a8a;
     }
-    .dados input {
-      display: block;
-      margin: 0.4rem auto;
-      padding: 0.5rem;
-      width: 90%;
+
+    .form-section {
+      margin-bottom: 20px;
+      background: #e0e7ff;
+      padding: 10px;
+      border-radius: 10px;
     }
-    button {
-      display: block;
-      margin: 1rem auto;
-      background-color: #007acc;
+
+    input, select {
+      padding: 6px;
+      margin: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    table {
+      width: 100%;
+      background: white;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      padding: 8px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    th {
+      background: #3b82f6;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background: #f3f4f6;
+    }
+
+    .btn {
+      padding: 10px 14px;
+      margin: 5px;
+      background: #2563eb;
       color: white;
       border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #1e40af;
+    }
+
+    #foto-preview {
+      display: none;
+      margin-top: 10px;
+    }
+
+    #criador {
+      display: none;
+      background: #fff7ed;
+      padding: 15px;
+      margin-top: 20px;
+      border-left: 6px solid #f59e0b;
     }
   </style>
 </head>
 <body>
-  <h1>Missão do Dia</h1>
-  <div class="dados">
-    <input id="nome" placeholder="Seu nome completo" />
-    <input id="pais" placeholder="País" />
-    <input id="estado" placeholder="Estado" />
-    <input id="cidade" placeholder="Cidade" />
-    <button onclick="entrarNoSite()">Ir para o site</button>
-  </div>
-  <script>
-    function entrarNoSite() {
-      const nome = document.getElementById('nome').value.trim().toLowerCase();
-      const pais = document.getElementById('pais').value;
-      const estado = document.getElementById('estado').value;
-      const cidade = document.getElementById('cidade').value;localStorage.setItem('nome', nome);
-  localStorage.setItem('pais', pais);
-  localStorage.setItem('estado', estado);
-  localStorage.setItem('cidade', cidade);
 
-  window.location.href = "rotina.html";
-}
+<h1>Missão do Dia</h1>
 
-  </script>
+<div class="form-section">
+  <label>Nome completo:</label>
+  <input id="nome" required />
+  <label>País:</label>
+  <input id="pais" required />
+  <label>Estado:</label>
+  <input id="estado" required />
+  <label>Cidade:</label>
+  <input id="cidade" required />
+</div>
+
+<table id="tabela">
+  <thead>
+    <tr>
+      <th>Tarefa</th>
+      <th>Início</th>
+      <th>Fim</th>
+      <th>Fez?</th>
+      <th>Excluir</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ler a Bíblia</td>
+      <td><input type="time" /></td>
+      <td><input type="time" /></td>
+      <td><input type="checkbox" /></td>
+      <td><button onclick="removerLinha(this)">X</button></td>
+    </tr>
+  </tbody>
+</table>
+
+<button class="btn" onclick="adicionarTarefa()">Adicionar tarefa</button>
+<button class="btn" onclick="tirarFoto()">Adicionar foto</button>
+<button class="btn" onclick="imprimirModelo()">Imprimir modelo</button>
+<button class="btn" onclick="finalizarRotina()">Finalizar</button>
+
+<img id="foto-preview" width="200" />
+
+<div id="criador">
+  <h3>Você é o criador! 🧠</h3>
+  <p>Total de acessos: <span id="acessos">1</span></p>
+  <p>Sistema de pontos ativado (ex: 0.5 por tarefa marcada)</p>
+</div>
+
+<script>
+  let acessos = 1;
+
+  function adicionarTarefa() {
+    const tabela = document.getElementById("tabela").getElementsByTagName('tbody')[0];
+    const novaLinha = tabela.insertRow();
+    novaLinha.innerHTML = `
+      <td><input placeholder="Nova tarefa"/></td>
+      <td><input type="time" /></td>
+      <td><input type="time" /></td>
+      <td><input type="checkbox" /></td>
+      <td><button onclick="removerLinha(this)">X</button></td>
+    `;
+  }
+
+  function removerLinha(botao) {
+    const linha = botao.parentNode.parentNode;
+    linha.remove();
+  }
+
+  function tirarFoto() {
+    alert("📸 Adicionar foto ainda precisa ser feito com upload real (não é automático no navegador).");
+    const img = document.getElementById("foto-preview");
+    img.src = "https://via.placeholder.com/200x150.png?text=Foto+da+Rotina";
+    img.style.display = "block";
+  }
+
+  function imprimirModelo() {
+    window.print();
+  }
+
+  function finalizarRotina() {
+    const nome = document.getElementById("nome").value.trim();
+    const tarefas = document.querySelectorAll("#tabela tbody tr");
+    let pontos = 0;
+    tarefas.forEach(linha => {
+      const marcada = linha.querySelector("input[type='checkbox']").checked;
+      if (marcada) pontos += 0.5;
+    });
+
+    const acordou = tarefas[0]?.querySelector("input[type='time']")?.value || "não informado";
+    const adicionouFoto = document.getElementById("foto-preview").style.display === "block";
+    const melhoras = pontos < 2 ? "Pode melhorar bastante." : "Muito bom!";
+    const mensagem = `✅ Olá ${nome},\n\n• Você fez ${pontos} pontos.\n• Acordou às ${acordou}.\n• ${melhoras}\n• Foto da rotina: ${adicionouFoto ? "sim" : "não"}`;
+
+    alert("Mensagem para WhatsApp:\n\n" + mensagem);
+
+    if (nome.toLowerCase() === "davi alexandre monteiro batista") {
+      document.getElementById("criador").style.display = "block";
+      document.getElementById("acessos").textContent = ++acessos;
+    }
+  }
+</script>
+
 </body>
 </html>
